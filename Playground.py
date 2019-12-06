@@ -23,70 +23,76 @@ for name, contents in drinks.items():
 
 '''
 
-#연습문제 3.8
 
-#3.1
-year_list = [i for i in range(1980,1986)]
-#print(year_list)
 
-#3.2
-print(year_list[3])
+# generater
 
-#3.3
-print(year_list[-1])
+def my_range(first=0, last=10, step=1):
+    number = first
+    while number < last:
+        yield number
+        number += step
 
-#3.4
-things = ["mozzarella", "cinderella", "salmonella"]
-print(things)
 
-#3.5
-print(things[1].capitalize())
-print(things)
+ranger = my_range  # function
 
-#3.6
-print(things[0].capitalize())
+rnager = my_range()  # genrater
 
-#3.7
-things.remove('salmonella')
-print(things)
 
-#3.8
-suprise = ["Groucho","Chico","Harpo"]
+############################################################################
 
-#3.9
-suprise[2] = suprise[2].lower()
-suprise[-1] = suprise[-1][::-1]
-suprise[-1] = suprise[-1].capitalize()
-print(suprise)
+# decorater   // example, using for function debugging
 
-#3.10
-e2f = {'dog' : 'chien','cat':'chat','walrus':'morse'}
-print(e2f)
+# 데커레이터 함수 선언
+def document_it(func):
+    def new_function(*args, **kwargs):
+        print('Running function:', func.__name__)
+        print('Positional arguments:', args)
+        print('Keyword arguments:', kwargs)
+        result = func(*args, **kwargs)
+        print('Result', result)
+        return result
 
-#3.11
-print(e2f['walrus'])
+    return new_function
 
-#3.12
-f2e={}
-for k,v in e2f.items():
-    f2e[v]=k
-print(f2e)
 
-#3.13
-print(f2e['chien'])
+# 데커레이터를 이용할 함수 선언
+def add_ints(a, b):
+    return a + b
 
-#3.14
-print(list(e2f.keys()))
 
-#3.15
-life ={'animals':{'cats':['Henri','Grumpy','Lucy'],'octopi':{},'emus':{}},'plants':{},'other':{}}
-print(life)
+# 데커레이터를 수동으로 할당
+cooler_add_ints = document_it(add_ints)
 
-#3.16
-print(list(life.keys()))
+# 더커레이터가 포함된 함수 실행
+cooler_add_ints(3, 5)
 
-#3.17
-print(list(life['animals'].keys()))
 
-#3.18
-print(life['animals']['cats'])
+# 데커레이터 사용법
+
+@document_it  # 사용하고 싶은 함수에 @(데커레이터 이름)을 추가만 해주면 끝...
+def add_ints(a, b):
+    return (a + b)
+
+
+add_ints(1, 5)  # 결과 확인 가능
+
+# 데커레이터는 여러개 가질 수 있다... 함수 위에 @ 두개 적어주면 됨
+# 이 떄 순서는 함수와 가까운 데커레이터 부터 실해 (함수 바로 위 데커레이터)
+
+############################################################################
+
+# Handle the exception
+
+short_list = [1, 2, 3]
+while True:
+    value = input('Position [q to quit]? ')
+    if value == 'q':
+        break
+    try:
+        position = int(value)
+        print(short_list[position])
+    except IndexError as err:
+        print('Bad index:', position)
+    except Exception as other:
+        print('Something else broke', other)
