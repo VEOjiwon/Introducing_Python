@@ -117,3 +117,139 @@ def palindrome(word):
     return True
 
 print(palindrome('rasr'))
+
+############################################################################
+
+# 상속 예제
+class Car():
+    def exclaim(self):
+        print("I'm a Car!")
+
+
+class Yugo(Car):
+    pass
+
+
+give_me_a_car = Car()
+give_me_a_yugo = Yugo()
+give_me_a_yugo.exclaim()
+
+
+# 오버라이드 예제
+class Car():
+    def exclaim(self):
+        print("I'm a Car!")
+
+
+class Yugo(Car):
+    def exclaim(self):
+        print("I'm a yugo")
+
+    def need_a_push(self):
+        print("A little help here?")
+
+
+give_me_a_car = Car()
+give_me_a_yugo = Yugo()
+give_me_a_car.exclaim()
+give_me_a_yugo.exclaim()
+give_me_a_yugo.need_a_push()
+
+
+# super 예제
+class Person():
+    def __init__(self, name):
+        self.name = name
+
+
+class EmailPerson(Person):
+    def __init__(self, name, email):
+        super().__init__(name)
+        self.email = email
+
+
+hunter = EmailPerson('Elmer Fudd', 'EF@naver.com')
+
+
+# getter, setter
+class Duck():
+    def __init__(self, input_name):
+        self.hidden_name = input_name
+
+    def get_name(self):
+        print('inside the getter')
+        return self.hidden_name
+
+    def set_name(self, input_name):
+        print('inside the setter')
+        self.hidden_name = input_name
+
+    name = property(get_name, set_name)
+
+
+# getter, setter using decerater
+
+class Circle():
+    def __init__(self, radius):
+        self.radius = radius
+
+    @property  # 외부에서 diameter를 수정 못하게 만듬
+    def diameter(self):
+        return 2 * self.radius
+
+
+# private and mangling
+
+class Duck():
+    def __init__(self, input_name):
+        self.__name = input_name
+
+    @property
+    def name(self):
+        print('inside the getter')
+        return self.__name
+
+    @name.setter
+    def name(self, input_name):
+        print('inside the setter')
+        self.__name = input_name
+
+
+# class method
+
+class A():
+    count = 0
+
+    def __init__(self):
+        A.count += 1
+
+    def exclaim(self):
+        print("I'm an A!")
+
+    @classmethod
+    def kids(cls):
+        print("A has", cls.count, "little objects.")
+
+
+# duck typing
+
+class BabblingBrook():
+    def who(self):
+        return 'Brook'
+
+    def says(self):
+        return 'Babble'
+
+
+def who_says(obj):
+    print(obj.who(), 'says', obj.says())
+
+
+hunter = BabblingBrook()
+who_says(hunter)
+
+#named tuple
+
+from collections import namedtuple
+Duck = namedtuple('Duck', 'bill tail')
+duck = Duck('wide orange', 'long')
