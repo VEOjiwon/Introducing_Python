@@ -96,3 +96,24 @@ while True:
         print('Bad index:', position)
     except Exception as other:
         print('Something else broke', other)
+
+
+##########################################################################
+
+# use the deque from import // from collections import deque
+
+
+def palindrome(word):
+    """
+    determine whether palindrome word or not
+    :param word: 
+    :return:
+    """
+    from collections import deque
+    dq = deque(word)
+    while len(dq) > 1 :
+        if dq.popleft() !=dq.pop():
+            return False
+    return True
+
+print(palindrome('rasr'))
