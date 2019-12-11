@@ -253,3 +253,78 @@ who_says(hunter)
 from collections import namedtuple
 Duck = namedtuple('Duck', 'bill tail')
 duck = Duck('wide orange', 'long')
+
+
+##############################################################################################
+
+#section 7
+
+#unicode things
+
+import unicodedata
+
+def unicode_test(value):
+    #import unicodedata
+    name = unicodedata.name(value)
+    value2 = unicodedata.lookup(name)
+    print('value="%s",name="%s",value2="%s"' %(value, name, value2))
+
+#unicode_test('A')
+#unicode_test('$')
+#unicode_test('\u00a2')
+#unicode_test('\u20ac')
+#unicode_test('\u2603')
+#unicode_test('\u00e9')
+
+print(unicodedata.name('\u00e9'))
+print(unicodedata.lookup('LATIN SMALL LETTER E WITH ACUTE'))
+
+place = 'caf\u00e9'
+
+place2 = 'caf\N{LATIN SMALL LETTER E WITH ACUTE}'
+
+#encoding
+snowman = '\u2603'
+print(len(snowman))
+print(snowman)
+ds = snowman.encode('utf-8')
+print(len(ds))
+print(ds)
+#ds2 = snowman.encode('ascii') -> error!!
+ds2 = snowman.encode('ascii','ignore')#replace, bakslashreplace, xmlcharrefreplace 등의 옵션 존재
+
+#decoding
+
+place = 'caf\u00e9'
+print(type(place))
+
+place_bytes = place.encode('utf-8')
+print(type(place_bytes))
+
+place_bytes.decode('utf-8')
+
+#인코딩과 디코딩 타입은 같아야 한다... 가급적이면 utf-8타입을 사용하자
+
+
+#formating
+
+#old version
+print("my height is %d and my age is %d"%(180,23))
+
+#new version
+n=42
+f=7.03
+s='string cheese'
+print('{} {} {}'.format(n,f,s))
+
+#순서지정
+print('{1} {2} {0}'.format(n,f,s))
+
+
+#딕셔너리 인자
+print('{n} {f} {s}'.format(n=42,f=8.2,s='string'))
+
+#타입 지정자
+print('{0:d} {1:f} {2:s}'.format(n,f,s))
+
+##더 자세한 것들은 책 p210쪽 을 참고하시길
