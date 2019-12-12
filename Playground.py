@@ -328,3 +328,90 @@ print('{n} {f} {s}'.format(n=42,f=8.2,s='string'))
 print('{0:d} {1:f} {2:s}'.format(n,f,s))
 
 ##더 자세한 것들은 책 p210쪽 을 참고하시길
+
+
+# 정규표현식
+import re
+
+# 1 match사용법
+result = re.match('You', 'Young Frankenstein')
+
+# 2 compile해서 match
+youpattern = re.compile('You')
+result2 = youpattern.match('Young Frankenstein')
+
+# 3 match한 후 매칭 되면 문자열로 출력하기
+source = 'Young Frankenstein'
+m = re.match('You', source)
+if m:
+    print(m.group())
+
+m = re.match('Frank', source)  # match는 패턴이 소스의 처음에 있을 때만 반환
+if m:
+    print(m.group())
+
+# 4 search와 와일드 카드 .* 사용
+m = re.search('Frank', source)  # search는 패턴이 어디있든 매칭가능
+if m:
+    print(m.group())
+
+m = re.match('.*Frank', source)  # 1. .은 한 문자 2. *은 이전 패턴이 여러개 올 수 있음 3. Frank가 포함되어있어야 함
+if m:  # .* \n을 제외한 모든 문자가 여러개 올 수 있음
+    print(m.group())
+
+m = re.search('Frank', source)
+if m:
+    print(m.group())
+
+# 5 findall
+m = re.findall('n', source)
+print(m)
+m = re.findall('n.', source)
+print(m)
+m = re.findall('n.?', source)  # ?는 0또는 1회를 의미 .. 마지막패턴도 찾을 수 있게 된다
+print(m)
+
+# 6 split
+m = re.split('n', source)
+print(m)
+
+# 7 sub
+m = re.sub('n', '?', source)
+print(m)
+
+# 8 패턴 지정자
+source = '''I wish I may, I wish I might Have a dish of fish tonight.'''
+print(re.findall('wish', source))
+
+print(re.findall('wish|fish', source))
+
+print(re.findall('^wish', source))
+
+print(re.findall('^I wish', source))
+
+print(re.findall('fish$', source))
+
+print(re.findall('fish tonight.$', source))
+
+print(re.findall('fish tonight\.$', source))
+
+print(re.findall('[wf]ish', source))
+
+print(re.findall('[wsh]+', source))
+
+print(re.findall('I (?=wish)', source))
+
+print(re.findall('(?<=I) wish', source))
+
+print(re.findall(r'\bfish', source))  # 정규식 시작시에는 항상 문자 r(raw string)을 사용해서 이스케이프 문자 충돌 피해야함
+
+# 9 패턴 결과 매칭하기
+m = re.search(r'(. dish\b).*(\bfish)', source)
+print(m.group())
+print(m.groups())
+
+m = re.search(r'(?P<DISH>. dish\b).*(?P<FISH>\bfish)', source)
+print(m.group())
+print(m.groups())
+print(m.group('DISH'))
+print(m.group('FISH'))
