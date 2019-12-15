@@ -415,3 +415,58 @@ print(m.group())
 print(m.groups())
 print(m.group('DISH'))
 print(m.group('FISH'))
+
+
+##########################################################################################3
+
+# section 8
+
+# file i.o.
+poem = '''There was a young lady named Bright,
+Whose speed was far faster than light;
+She started one day
+In a relative way,
+And returned on the previous night.'''
+
+fout = open('relativity', 'wt')
+# fout.write(poem)
+# print(poem, file=fout)
+size = len(poem)
+offset = 0
+chunk = 100
+while True:
+    if offset > size:
+        break
+    fout.write(poem[offset:offset + chunk])
+    offset += chunk
+
+fout.close()
+
+fin = open('relativity', 'rt')
+poem = fin.read()
+fin.close()
+print(len(poem))
+
+fin = open('relativity', 'rt')
+lines = fin.readlines()
+
+for line in fin:
+    poem += line
+fin.close()
+print(len(poem))
+
+# binary handle
+bdata = bytes(range(0, 256))
+fout = open('bfile', 'wb')
+fout.write(bdata)
+fout.close()
+
+# 자동으로 파일 닫기
+with open('relativity', 'wt') as fout:
+    fout.write(poem)
+
+# 파일위치 찾기
+fin = open('bfile', 'rb')
+print(fin.tell())
+print(fin.seek(250))
+bdata = fin.read()
