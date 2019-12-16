@@ -470,3 +470,84 @@ fin = open('bfile', 'rb')
 print(fin.tell())
 print(fin.seek(250))
 bdata = fin.read()
+
+# CSV - JSON
+menu = \
+    {
+        "breakfast": {
+            "hours": "7-11",
+            "items": {
+                "breakfast burritos": "$6.00",
+                "pancakes": "$4.00"
+            }
+        },
+        "lunch": {
+            "hours": "11-3",
+            "items": {
+                "humburger": "$5.00"
+            }
+        },
+        "dinner": {
+            "hours": "3-10",
+            "itmes": {
+                "spaghetti": "$8.00"
+            }
+        }
+    }
+
+import json
+
+menu_json = json.dumps(menu)
+# print(menu_json)
+
+menu2 = json.loads(menu_json)
+# print(menu2)
+
+import datetime
+
+now = datetime.datetime.utcnow()
+# print(now)
+# json.dumps(now) /json값이 이해할 수 없는 타입이다 json 모듈에서는 날짜 또는 시간 타입을 정의하지 않았음
+
+now_str = str(now)
+json.dumps(now_str)
+
+from time import mktime
+
+now_epoch = int(mktime(now.timetuple()))
+print(json.dumps(now_epoch))
+
+
+####################################################################
+
+
+#DB - SQLITE3
+import sqlite3
+conn = sqlite3.connect('enterprise.db')
+curs = conn.cursor()
+curs.execute('''CREATE TABLE zoo
+            (critter VARCHAR(20) PRIMARY KEY,
+            count INT,
+            damages FLOAT)''')
+
+
+curs.execute('INSERT INTO zoo Values("duck",5,0.0)')
+curs.execute('INSERT INTO zoo Values("bear",2,1000.0)')
+
+ins = 'INSERT INTO zoo (critter, count, damages) VALUES(?, ?, ?)'
+curs.execute(ins, ('weasel',1,2000.0))
+
+curs.execute('SELECT * FROM zoo')
+rows = curs.fetchall()
+print(rows)
+
+curs.execute('SELECT * from zoo ORDER BY count DESC')
+curs.fetchall()
+
+#한 마리당 비용이 가장 많이 드는 동물
+curs.execute('''SELECT * FROM zoo WHERE
+DAMAGES = (SELECT MAX (damages) FROM zoo)''')
+curs.fetchall()
+
+curs.close()
+conn.close()
